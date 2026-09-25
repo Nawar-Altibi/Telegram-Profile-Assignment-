@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kept in sync with AppColors.scaffold so the window never flashes a
+         colour the Flutter UI does not use. -->
+    <color name="scaffold">#FF0E1621</color>
+</resources>

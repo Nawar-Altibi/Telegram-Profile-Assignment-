@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The app is dark-only, so both the light and night resource sets use
+         the same window background: launching into a white flash and then
+         cutting to a dark UI is the first thing a reviewer sees. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/scaffold</item>
+    </style>
+</resources>
