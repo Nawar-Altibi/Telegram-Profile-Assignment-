@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../../../../../core/constants/app_durations.dart';
 import '../../../../../core/constants/theme/app_colors.dart';
 import '../../layout/header_geometry.dart';
 import '../../layout/profile_metrics.dart';
@@ -147,7 +148,9 @@ class _ProfileHeaderSliverState extends State<ProfileHeaderSliver> {
   /// drawn with [BoxFit.cover], so it spans the open cover's longer side.
   static double _bakedSigma(ProfileMetrics metrics) {
     final double span = math.max(metrics.screen.width, metrics.expandedExtent);
-    final double reference = span > 0 ? span : 400;
+    final double reference = span > 0
+        ? span
+        : ProfileMetrics.coverBlurFallbackSpan;
     return ProfileMetrics.coverBlurSigma * bakedCoverWidth / reference;
   }
 
@@ -380,7 +383,7 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Align(alignment: anchor, child: parts.nameRow),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: ProfileMetrics.nameToStatusGap),
                     Align(alignment: anchor, child: parts.status),
                   ],
                 ),
@@ -393,13 +396,17 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
             end: ProfileMetrics.horizontalPadding,
             height: ProfileMetrics.actionsHeight,
             child: IgnorePointer(
-              ignoring: geometry.actionsOpacity < 0.05,
+              ignoring:
+                  geometry.actionsOpacity <
+                  ProfileMetrics.actionsTapOpacityThreshold,
               child: geometry.actionsOpacity <= 0
                   ? const SizedBox.shrink()
                   : Transform(
                       alignment: Alignment.bottomCenter,
                       transform: Matrix4.diagonal3Values(
-                        1 - (1 - geometry.actionsScaleY) * 0.12,
+                        1 -
+                            (1 - geometry.actionsScaleY) *
+                                ProfileMetrics.actionsSquashWidthFactor,
                         geometry.actionsScaleY,
                         1,
                       ),
@@ -463,10 +470,6 @@ class _HeaderBackground extends StatelessWidget {
   /// collapsed bar blends with the content under it.
   final ValueListenable<bool> atPageEnd;
 
-  /// Radius of the light around the avatar, relative to the screen width.
-  static const double _glowRadiusFactor = 0.75;
-  static const Duration _fade = Duration(milliseconds: 260);
-
   @override
   Widget build(BuildContext context) {
     final glow = Rect.fromCircle(
@@ -474,7 +477,7 @@ class _HeaderBackground extends StatelessWidget {
         metrics.screen.width / 2,
         metrics.restingAvatarTop + metrics.restingAvatarDiameter / 2,
       ),
-      radius: metrics.screen.width * _glowRadiusFactor,
+      radius: metrics.screen.width * ProfileMetrics.headerGlowRadiusFactor,
     );
 
     // The glow is a full circle that fades to nothing at its own edge, so it
@@ -512,7 +515,7 @@ class _HeaderBackground extends StatelessWidget {
               valueListenable: atPageEnd,
               builder: (context, atEnd, _) => TweenAnimationBuilder<double>(
                 tween: Tween<double>(end: atEnd ? 1 : 0),
-                duration: _fade,
+                duration: AppDurations.headerPageEndFade,
                 curve: Curves.easeOutCubic,
                 builder: (context, t, _) => t == 0
                     ? const SizedBox.shrink()
@@ -538,8 +541,8 @@ class _CoverScrim extends StatelessWidget {
 
   final double opacity;
 
-  static const double _topAlpha = 0.35;
-  static const double _bottomAlpha = 0.54;
+  static Color _faded(Color color, double opacity) =>
+      color.withValues(alpha: color.a * opacity);
 
   @override
   Widget build(BuildContext context) {
@@ -549,12 +552,12 @@ class _CoverScrim extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
-            Colors.black.withValues(alpha: _topAlpha * opacity),
-            Colors.transparent,
-            Colors.transparent,
-            Colors.black.withValues(alpha: _bottomAlpha * opacity),
+            _faded(AppColors.coverScrimTop, opacity),
+            AppColors.coverScrimClear,
+            AppColors.coverScrimClear,
+            _faded(AppColors.coverScrimBottom, opacity),
           ],
-          stops: const <double>[0, 0.18, 0.55, 1],
+          stops: ProfileMetrics.coverScrimStops,
         ),
       ),
     );

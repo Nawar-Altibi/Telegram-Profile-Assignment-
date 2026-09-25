@@ -6,6 +6,7 @@ import '../../../../../core/constants/theme/app_colors.dart';
 import '../../../../../core/constants/theme/app_text_styles.dart';
 import '../../../../../core/helpers/phase.dart';
 import '../../../enums/profile_tab.dart';
+import '../../layout/profile_metrics.dart';
 
 /// Posts / Archived Posts selector.
 ///
@@ -24,13 +25,6 @@ class SegmentedTabs extends StatefulWidget {
 }
 
 class _SegmentedTabsState extends State<SegmentedTabs> {
-  static const double _height = 40;
-
-  /// Gap between the track and the highlight.
-  static const double _inset = 4;
-  static const double _labelPadding = 16;
-  static const double _maxTextScale = 1.6;
-
   /// The labels and their style are constant, so the measured widths only
   /// change with the text scale.
   TextScaler? _cachedScaler;
@@ -42,7 +36,7 @@ class _SegmentedTabsState extends State<SegmentedTabs> {
     if (cached != null && _cachedScaler == scaler) return cached;
     final List<double> widths = List<double>.unmodifiable(<double>[
       for (final ProfileTab tab in ProfileTab.values)
-        _labelWidth(tab.label, scaler) + _labelPadding * 2,
+        _labelWidth(tab.label, scaler) + ProfileMetrics.tabsLabelPadding * 2,
     ]);
     _cachedScaler = scaler;
     _cachedWidths = widths;
@@ -64,16 +58,19 @@ class _SegmentedTabsState extends State<SegmentedTabs> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.withClampedTextScaling(
-      maxScaleFactor: _maxTextScale,
+      maxScaleFactor: ProfileMetrics.tabsMaxTextScale,
       child: Builder(
         builder: (context) {
           final List<double> natural = _segmentWidths(context);
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: ProfileMetrics.tabsHorizontalPadding,
+            ),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final double naturalTotal = natural.fold(0.0, (a, b) => a + b);
-                final double available = constraints.maxWidth - _inset * 2;
+                final double available =
+                    constraints.maxWidth - ProfileMetrics.tabsTrackInset * 2;
                 final double fit = naturalTotal <= available
                     ? 1
                     : available / naturalTotal;
@@ -84,8 +81,8 @@ class _SegmentedTabsState extends State<SegmentedTabs> {
                   child: _Track(
                     controller: widget.controller,
                     widths: widths,
-                    height: _height,
-                    inset: _inset,
+                    height: ProfileMetrics.tabsTrackHeight,
+                    inset: ProfileMetrics.tabsTrackInset,
                   ),
                 );
               },

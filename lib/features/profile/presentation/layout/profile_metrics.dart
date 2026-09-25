@@ -110,6 +110,28 @@ class ProfileMetrics {
   static const double storySegmentsTopGap = 7;
   static const double storySegmentsHorizontalInset = 10;
 
+  /// Gap between the name and the status line under it.
+  static const double nameToStatusGap = 3;
+
+  /// How much narrower the action row gets as it squashes vertically, at its
+  /// flattest.
+  static const double actionsSquashWidthFactor = 0.12;
+
+  /// Opacity below which the fading action row stops taking taps.
+  static const double actionsTapOpacityThreshold = 0.05;
+
+  /// Radius of the light around the resting avatar, relative to the screen
+  /// width.
+  static const double headerGlowRadiusFactor = 0.75;
+
+  /// Where the open cover's top scrim ends and its bottom scrim begins, as
+  /// fractions of the cover's height.
+  static const List<double> coverScrimStops = <double>[0, 0.18, 0.55, 1];
+
+  /// Span the baked cover blur is calibrated against before the header has
+  /// been measured.
+  static const double coverBlurFallbackSpan = 400;
+
   // --- Derived extents -----------------------------------------------------
 
   /// Header height when fully collapsed: a plain pinned app bar.
@@ -203,6 +225,20 @@ class ProfileMetrics {
   static const double gridTileAspectRatio = 0.78;
   static const double gridCornerRadius = 12;
 
+  /// Distance of the pin and the badges from a tile's edges.
+  static const double mediaOverlayInset = 6;
+  static const double mediaPinIconSize = 16;
+  static const double mediaPinShadowBlur = 4;
+
+  /// Height of a tile's bottom scrim, as a fraction of the tile.
+  static const double mediaScrimHeightFraction = 0.34;
+
+  static const double mediaBadgeRadius = 7;
+  static const double mediaBadgeHorizontalPadding = 5;
+  static const double mediaBadgeVerticalPadding = 2;
+  static const double mediaBadgeIconSize = 13;
+  static const double mediaBadgeIconGap = 3;
+
   /// Two columns on a phone, three on a large phone or small tablet, four on
   /// a wide tablet, so tiles never grow oversized past ~600dp.
   int get gridColumnCount {
@@ -212,6 +248,16 @@ class ProfileMetrics {
   }
 
   static const double tabsBarHeight = 58;
+
+  /// The Posts / Archived Posts selector: its rounded track, the gap between
+  /// the track and the highlight, and the padding around each label.
+  static const double tabsTrackHeight = 40;
+  static const double tabsTrackInset = 4;
+  static const double tabsLabelPadding = 16;
+  static const double tabsHorizontalPadding = 12;
+
+  /// The selector's labels follow the user's text size up to this factor.
+  static const double tabsMaxTextScale = 1.6;
 
   static const double infoCardRadius = 16;
 
@@ -242,6 +288,10 @@ class ProfileMetrics {
   /// Unread badge position relative to its destination icon.
   static const double navBadgeTop = -4;
   static const double navBadgeStart = 13;
+
+  /// Where the add-post button waits while hidden, in multiples of its own
+  /// size below its resting place.
+  static const Offset addPostHiddenSlide = Offset(0, 1.6);
 
   /// Side margin of the floating controls; grows with the screen width.
   double get floatingHorizontalMargin => math.max(16.0, screen.width * 0.09);

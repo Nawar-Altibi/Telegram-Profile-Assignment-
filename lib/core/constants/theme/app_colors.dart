@@ -29,4 +29,24 @@ abstract final class AppColors {
 
   /// Soft light radiating from behind the resting avatar.
   static const Color headerGlow = Color(0xFF6FA3D2);
+
+  /// Darkening over the top and bottom of the open cover photo, at full
+  /// strength; the header scales their alpha as the cover opens.
+  static const Color coverScrimTop = Color(0x59000000);
+  static const Color coverScrimBottom = Color(0x8A000000);
+  static const Color coverScrimClear = Color(0x00000000);
+
+  /// Status and navigation bars; the app draws edge to edge behind them.
+  static const Color systemBars = Color(0x00000000);
+
+  /// Icons and their shadows drawn over media thumbnails.
+  static const Color mediaOverlayIcon = Color(0xFFFFFFFF);
+  static const Color mediaOverlayShadow = Color(0xFF000000);
+
+  /// Translucent pill behind the view count and clip duration.
+  static const Color mediaBadge = Color(0x52000000);
+
+  /// Gradient along a media tile's bottom edge that keeps its badges legible.
+  static const Color mediaScrim = Color(0x66000000);
+  static const Color mediaScrimClear = Color(0x00000000);
 }

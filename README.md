@@ -110,6 +110,7 @@ lib/
   main.dart                          edge-to-edge setup, app entry
   app/app.dart                       MaterialApp and theme wiring
   core/
+    constants/app_durations.dart     shared animation durations
     constants/theme/                 colours, text styles, ThemeData
     widgets/                         FrostedSurface (shared blur surface), FloatingNotice
     helpers/phase.dart               maps a sub-range of a progress value to 0..1

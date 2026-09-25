@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/constants/app_durations.dart';
 import '../../../../core/constants/theme/app_colors.dart';
 import '../../../../core/widgets/floating_notice.dart';
 import '../../../profile/enums/profile_tab.dart';
@@ -94,10 +95,10 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+        statusBarColor: AppColors.systemBars,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarColor: AppColors.systemBars,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
@@ -146,17 +147,17 @@ class _AppShellState extends State<AppShell> {
                               return IgnorePointer(
                                 ignoring: !shown,
                                 child: AnimatedSlide(
-                                  duration: const Duration(milliseconds: 220),
+                                  duration: AppDurations.addPostSlide,
                                   curve: Curves.easeOutCubic,
                                   offset: shown
                                       ? Offset.zero
-                                      : const Offset(0, 1.6),
+                                      : ProfileMetrics.addPostHiddenSlide,
                                   // Faded through the button's own tint: an
                                   // opacity layer would hide the grid from its
                                   // blur.
                                   child: TweenAnimationBuilder<double>(
                                     tween: Tween<double>(end: shown ? 1 : 0),
-                                    duration: const Duration(milliseconds: 180),
+                                    duration: AppDurations.addPostFade,
                                     builder: (context, opacity, _) =>
                                         AddPostButton(opacity: opacity),
                                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/theme/app_colors.dart';
 import '../../../../../core/constants/theme/app_text_styles.dart';
+import '../../layout/profile_metrics.dart';
 
 /// Translucent pill used for the view counter and the clip duration.
 ///
@@ -16,16 +18,23 @@ class MediaBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.32),
-        borderRadius: BorderRadius.circular(7),
+        color: AppColors.mediaBadge,
+        borderRadius: BorderRadius.circular(ProfileMetrics.mediaBadgeRadius),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+        padding: const EdgeInsets.symmetric(
+          horizontal: ProfileMetrics.mediaBadgeHorizontalPadding,
+          vertical: ProfileMetrics.mediaBadgeVerticalPadding,
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Icon(icon, size: 13, color: Colors.white),
-            const SizedBox(width: 3),
+            Icon(
+              icon,
+              size: ProfileMetrics.mediaBadgeIconSize,
+              color: AppColors.mediaOverlayIcon,
+            ),
+            const SizedBox(width: ProfileMetrics.mediaBadgeIconGap),
             Text(label, style: AppTextStyles.mediaBadge),
           ],
         ),
